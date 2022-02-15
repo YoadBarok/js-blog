@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
-    HomeComponent
+    HomeComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,

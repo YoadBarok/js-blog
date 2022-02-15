@@ -1,13 +1,37 @@
-.card{
-  border: none;
-  width: 500px;
-  margin: 10px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+.main {
+  margin-top: 25vh;
+  display: flex;
+  height: 40vh;
+  width: 20vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+
+.loader {
+  position: absolute;
+  top: calc(50% - 45px);
+  right: calc(50% - 45px);
+  border: 12px solid rgba(0,0,0,0);
+  border-top: 12px solid #3498db;
+  border-bottom: 12px solid #3498db;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+

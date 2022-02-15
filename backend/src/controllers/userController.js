@@ -24,7 +24,7 @@ class UserController {
                 message: `New user created with the name: ${user.user_name}, a confirmation email was sent to ${user.email}`
             })
         } catch (err) {
-            res.status(400).json({ error: err.message });
+            res.status(200).json({ error: err.message });
         }
     }
 
