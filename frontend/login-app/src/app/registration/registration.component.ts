@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from "../services/user.service";
 
 @Component({
   selector: 'app-registration',
@@ -14,6 +14,15 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  async onSubmit(form:any) {
+
+    let output = {
+      user_name: form.form.value.userName,
+      email: form.form.value.email,
+      password: form.form.value.password
+    }
+    this.userService.registerUser(output);
+  }
 
 
 

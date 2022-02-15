@@ -1,1 +1,119 @@
-<p>registration works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="text-center">
+          <h3>Register:</h3>
+        </div>
+        <div class="text-center">
+          <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+            <div class="mb-3">
+              <label for="userName" class="form-label">Username</label>
+              <input
+                type="text"
+                id="userName"
+                name="userName"
+                class="form-control"
+                placeholder="Username"
+                ngModel
+                required
+                #nameCtrl="ngModel"
+              />
+              <span
+                class="text-danger"
+                *ngIf="nameCtrl.invalid && nameCtrl.touched"
+                >Username is required</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="Email"
+                aria-describedby="emailHelp"
+                required
+                ngModel
+                #emailCtrl="ngModel"
+                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              />
+              <span
+                class="text-danger"
+                *ngIf="emailCtrl.hasError('required') && emailCtrl.touched"
+                >Email is required</span
+              >
+              <span
+                class="text-danger"
+                *ngIf="emailCtrl.hasError('pattern') && emailCtrl.touched"
+                >Invalid email</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Password"
+                required
+                ngModel
+                #passwordCtrl="ngModel"
+                minlength="8"
+              />
+              <span
+                class="text-danger"
+                *ngIf="
+                  passwordCtrl.hasError('required') && passwordCtrl.touched
+                "
+                >Password is required</span
+              >
+              <span
+                class="text-danger"
+                *ngIf="
+                  passwordCtrl.hasError('minlength') && passwordCtrl.touched
+                "
+                >Min 8 characters lenght</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label"
+                >Confirm password</label
+              >
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="form-control"
+                placeholder="Confirm password"
+                required
+                ngModel
+                #confirmPassword="ngModel"
+              />
+              <span
+                class="text-danger"
+                *ngIf="
+                  confirmPassword.value != passwordCtrl.value &&
+                  confirmPassword.touched
+                "
+                >Passwords must match</span
+              >
+            </div>
+            <button
+              class="btn btn-primary mb-2"
+              type="submit"
+              [disabled]="
+                form.invalid || confirmPassword.value != passwordCtrl.value
+              "
+            >
+              Sign up
+            </button>
+          </form>
+          <!-- <a routerLink="/login"><button class="btn btn-primary mt-4">Login</button></a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

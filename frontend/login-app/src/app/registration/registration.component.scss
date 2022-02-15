@@ -1,0 +1,13 @@
+.card{
+  border: none;
+  width: 500px;
+  margin: 10px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
