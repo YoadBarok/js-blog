@@ -1,0 +1,30 @@
+{
+  "name": "login-example",
+  "version": "1.0.0",
+  "description": "example of login app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon --exec babel-node backend/src/index.js",
+    "test": "jest"
+  },
+  "author": "Yoad Barok",
+  "license": "ISC",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-node": "^0.0.1-security",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "jest": "^27.5.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.3",
+    "sequelize": "^6.16.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.16.8"
+  }
+}
