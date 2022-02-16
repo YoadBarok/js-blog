@@ -1,4 +1,7 @@
 .main {
+  position:absolute;
+  top:5vh;
+  right: 40vw;
   margin-top: 25vh;
   display: flex;
   height: 40vh;
@@ -12,26 +15,8 @@ input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
 
-.loader {
-  position: absolute;
-  top: calc(50% - 45px);
-  right: calc(50% - 45px);
-  border: 12px solid rgba(0,0,0,0);
-  border-top: 12px solid #3498db;
-  border-bottom: 12px solid #3498db;
-  border-radius: 50%;
-  width: 90px;
-  height: 90px;
-  animation: spin 1.5s linear infinite;
+.disabled {
+  pointer-events: none;
+  opacity: .4;
 }
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 

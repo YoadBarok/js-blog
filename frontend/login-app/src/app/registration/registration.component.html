@@ -1,11 +1,11 @@
 <div class="main">
+  <h3>Register:</h3>
   <div class="container card">
     <div class="row">
           <div class="text-center">
-            <h3>Register:</h3>
           </div>
           <div class="text-center">
-            <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+            <form (ngSubmit)="onSubmit(form)" #form="ngForm" [ngClass]="{'disabled': disableForm}">
               <div class="mb-3">
                 <label for="userName" class="form-label">Username</label>
                 <input
@@ -114,7 +114,9 @@
           </div>
     </div>
   </div>
-  <div *ngIf="spinner" class="loader"></div>
+  <div *ngIf="spinner">
+    <app-spinner></app-spinner>
+  </div>
   <div *ngIf="confirmationMessage !== ''" class="text-center">
     <app-confirmation [message]="confirmationMessage"></app-confirmation>
   </div>
