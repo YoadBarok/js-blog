@@ -41,19 +41,19 @@ class UserController {
         try {
             let user = await userService.serveUserByUserName(req.body.user_name);
             if (!user || !await userService.comparePasswords(req.body.password, user.password)) {
-                res.status(400).json({ message: `Invalid credentials!` })
+                res.status(200).json({ error: `Invalid credentials!` })
             } else {
                 if (user.verified) {
                     const accesToken = userService.generateToken(user);
                     const refreshToken = await userService.generateRefresh(user);
                     res.status(200).json({ access_token: accesToken, refresh_token: refreshToken })
                 } else {
-                    res.status(400).json({ message: 'User is not verified!' })
+                    res.status(200).json({ error: 'User is not verified!' })
                 }
             }
         } catch (e) {
             console.log(e)
-            res.status(400).json({ message: `Invalid request!` })
+            res.status(200).json({ error: `Invalid request!` })
         }
     }
 

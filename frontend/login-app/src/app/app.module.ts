@@ -9,6 +9,9 @@ import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LoginComponent } from './login/login.component';
+import { SuccessComponent } from './success/success.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { SpinnerComponent } from './spinner/spinner.component';
     RegistrationComponent,
     HomeComponent,
     ConfirmationComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    NavbarComponent,
+    LoginComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,
