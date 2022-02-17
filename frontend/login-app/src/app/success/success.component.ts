@@ -19,14 +19,10 @@ export class SuccessComponent implements OnInit {
   }
 
   async identify() {
-    try{
       let data = await this.userService.identify();
+      if (data === null) {
+        this.identify();
+      }
       this.user = data;
-    }
-    catch(error){
-      let response = await this.userService.refreshToken();
-      localStorage.setItem('jwtToken', response.accessToken);
-      this.identify();
-    }
   }
 }

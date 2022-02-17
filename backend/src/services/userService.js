@@ -68,7 +68,7 @@ class UserService {
             id: user.id,
             userName: user.user_name
         }
-        var token = jsonwebtoken.sign(valuesToSign, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' })
+        var token = jsonwebtoken.sign(valuesToSign, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1s' })
         return token;
     }
 
