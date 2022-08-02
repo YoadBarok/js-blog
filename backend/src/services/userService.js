@@ -10,9 +10,8 @@ class UserService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
-    serveAllRefreshTokens() {
-        // CHANGE TO DB QUERY!!!!
-        return this.refreshTokens;
+    async serveAllRefreshTokens() {
+        return await this.refreshTokenRepository.findAllRefreshTokens();
     }
 
     async serveAllUsers() {
@@ -40,7 +39,8 @@ class UserService {
                 "Registration token expired" :
                 (async () => {
                     userToVerify.verified = true;
-                    userToVerify.regToken += 'verified' + (Math.round(Math.random() * 900000));
+                    userToVerify.regToken = "";
+                    userToVerify.regTokenExpiration = "";
                     let user = await this.userRepository.updateUser(userToVerify);
                     return user.user_name + ' has been successfully verified!';
                 })();
@@ -68,7 +68,7 @@ class UserService {
             id: user.id,
             userName: user.user_name
         }
-        var token = jsonwebtoken.sign(valuesToSign, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1s' })
+        var token = jsonwebtoken.sign(valuesToSign, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' })
         return token;
     }
 
@@ -84,15 +84,12 @@ class UserService {
     }
 
     async identifyUser(userId) {
-        let users = await this.serveAllUsers();
-        let mappedUsers = users.map(user => {
-            return {
-                id: user.id,
-                user_name: user.user_name,
-                email: user.email
-            };
-        });
-        return mappedUsers.filter(u => u.id === userId);
+        let user = await this.serveUserById(userId);
+        return {
+            id: user.id,
+            user_name: user.user_name,
+            email: user.email
+        };
     }
 
 }

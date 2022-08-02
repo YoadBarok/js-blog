@@ -17,13 +17,13 @@ class EmailService {
         let transporter = createTransport({
             host: transporterSettings.host,
             port: transporterSettings.port,
-            secure: false,
+            secure: true,
             auth: {
                 user: transporterSettings.email,
                 pass: transporterSettings.password,
             },
             tls: {  // When using on local host!
-                rejectUnauthorized: false,
+                rejectUnauthorized: true,
             }
         });
         try {

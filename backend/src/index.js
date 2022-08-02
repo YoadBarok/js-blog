@@ -5,7 +5,7 @@ import {app} from "./server.js";
 const port = process.env.PORT || 3001;
 
 (async () => {
-    await sequelize.sync({alter: true});
+    await sequelize.sync({alter: false});
 })();
 
 app.listen(port, () => {
