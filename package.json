@@ -12,17 +12,20 @@
   "license": "ISC",
   "dependencies": {
     "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "babel-node": "^0.0.1-security",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "g": "^2.0.1",
     "jest": "^27.5.1",
     "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
-    "pg": "^8.7.3",
     "sequelize": "^6.16.0"
   },
   "devDependencies": {
