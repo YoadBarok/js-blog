@@ -52,6 +52,38 @@ class PostController {
             console.log("error: " + err.message);
         }
     }
+    
+    upvote = async (req, res) => {
+        try {
+            let postId = req.params['postId'];
+            let postToUpVote = await this.postService.servePostById(postId)
+            if (req.user.id !== postToUpVote.userId) {
+                res.status(200).json({upvoted: await this.postService.upVotePost(postToUpVote, req.user.id)});
+            } else {
+                res.status(400).json({error: "Can't vote on your own post!"});
+            }
+            
+        } catch (err) {
+            res.json({error: err.message});
+            console.log("error: " + err.message);
+        }
+    }
+    
+    downvote = async (req, res) => {
+        try {
+            let postId = req.params['postId'];
+            let postToDownVote = await this.postService.servePostById(postId)
+            if (req.user.id !== postToDownVote.userId) {
+                res.status(200).json({upvoted: await this.postService.downVotePost(postToDownVote, req.user.id)});
+            } else {
+                res.status(400).json({error: "Can't vote on your own post!"});
+            }
+            
+        } catch (err) {
+            res.json({error: err.message});
+            console.log("error: " + err.message);
+        }
+    }
 
 
 
