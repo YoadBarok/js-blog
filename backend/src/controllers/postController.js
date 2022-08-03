@@ -39,7 +39,7 @@ class PostController {
 
     delete = async (req, res) => {
         try {
-            let {postId} = req.body;
+            let postId = req.params['postId'];
             let postToDelete = await this.postService.servePostById(postId)
             if (req.user.id === postToDelete.userId){
                 await this.postService.deletePost(postToDelete)

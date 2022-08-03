@@ -7,6 +7,6 @@ postRouter.use(express.json());
 postRouter.get('/', postController.allPosts);
 postRouter.post('/new-post', authenticateToken, postController.newPost);
 postRouter.post('/edit', authenticateToken, postController.edit);
-postRouter.post('/delete', authenticateToken, postController.delete);
+postRouter.get('/delete/:postId', authenticateToken, postController.delete);
 
 export { postRouter };
