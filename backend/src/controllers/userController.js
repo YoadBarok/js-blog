@@ -34,7 +34,7 @@ class UserController {
             let answer = await userService.verifyUser(req.params.regToken);
             res.status(200).json({ message: answer })
         } catch (err) {
-            res.status(400).json({ message: err.message })
+            res.status(400).json({ message: err })
         }
     }
 

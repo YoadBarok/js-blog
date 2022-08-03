@@ -24,7 +24,7 @@ const User = db.define("user", {
     },
     regToken: {
         type: STRING,
-        unique: true,
+        unique: false,
         allowNull: false,
     },
     regTokenExpiration: {

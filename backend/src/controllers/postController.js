@@ -21,6 +21,40 @@ class PostController {
         }
     }
 
+    edit = async (req, res) => {
+        try {
+            let {postId, body} = req.body;
+            let postToEdit = await this.postService.servePostById(postId)
+            if (req.user.id === postToEdit.userId){
+                postToEdit.body = body;
+                res.status(200).json({success: await this.postService.editPost(postToEdit)});
+            } else {
+                res.status(403).json({error: "This is not your post!"});
+            }
+        } catch(err) {
+            res.json({error: err.message});
+            console.log("error: " + err.message);
+        }
+    }
+
+    delete = async (req, res) => {
+        try {
+            let {postId} = req.body;
+            let postToDelete = await this.postService.servePostById(postId)
+            if (req.user.id === postToDelete.userId){
+                await this.postService.deletePost(postToDelete)
+                res.status(200).json({success: `Post #${postId} was deleted successfully!`});
+            } else {
+                res.status(403).json({error: "This is not your post!"});
+            }
+        } catch(err) {
+            res.json({error: err.message});
+            console.log("error: " + err.message);
+        }
+    }
+
+
+
 }
 
 const postController = new PostController(postService);

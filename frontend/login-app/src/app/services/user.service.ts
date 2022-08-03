@@ -21,19 +21,19 @@ export class UserService {
   }
 
   async registerUser(user: any) {
-    let result = await axios.post('http://localhost:3001/user/save-user', user);
+    let result = await axios.post('http://localhost:3000/user/save-user', user);
     return result.data;
   }
 
   async login(user: any) {
-    let result = await axios.post('http://localhost:3001/user/login', user);
+    let result = await axios.post('http://localhost:3000/user/login', user);
     return result.data;
   }
 
   async identify() {
     this.getAccessToken();
     try {
-      let result = await axios.get('http://localhost:3001/user/identify');
+      let result = await axios.get('http://localhost:3000/user/identify');
       return result.data[0];
     } catch (error) {
       let response = await this.refreshToken();
@@ -43,7 +43,7 @@ export class UserService {
   }
 
   async refreshToken() {
-    let result = await axios.post('http://localhost:3001/user/token', {
+    let result = await axios.post('http://localhost:3000/user/token', {
       token: localStorage.getItem('refreshToken'),
     });
     return result.data;
