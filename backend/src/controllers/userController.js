@@ -24,6 +24,7 @@ class UserController {
                 message: `New user created with the name: ${user.user_name}, a confirmation email was sent to ${user.email}`
             })
         } catch (err) {
+            if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({error: "Username or email already in use!"});
             res.status(200).json({ error: err.message });
         }
     }

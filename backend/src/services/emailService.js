@@ -1,34 +1,46 @@
 import { createTransport } from 'nodemailer';
 
-const defaultTransporterSettings = {
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    email: process.env.EMAIL,
-    password: process.env.PASSWORD
-}
+// const DEFAULTSETTINGS = {
+//     host: process.env.SMTP_HOST,
+//     port: process.env.SMTP_PORT,
+//     email: process.env.EMAIL_USER,
+//     password: process.env.EMAIL_PASS
+// }
 
 class EmailService {
 
-    getDefaultSettings() {
-        return defaultTransporterSettings;
+    transporterSettings = {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        email: process.env.EMAIL_USER,
+        password: process.env.EMAIL_PASS
     }
 
-    async sendEmail(to, subject, template, transporterSettings = defaultTransporterSettings) {
+    getDefaultSettings() {
+        return DEFAULTSETTINGS;
+    }
+
+    createTransporter() {
         let transporter = createTransport({
-            host: transporterSettings.host,
-            port: transporterSettings.port,
+            host: this.transporterSettings.host,
+            port: this.transporterSettings.port,
             secure: true,
             auth: {
-                user: transporterSettings.email,
-                pass: transporterSettings.password,
+                user: this.transporterSettings.email,
+                pass: this.transporterSettings.password,
             },
             tls: {  // When using on local host!
                 rejectUnauthorized: true,
             }
         });
+        return transporter;
+    }
+    
+    async sendEmail(to, subject, template) {
+        let transporter = this.createTransporter()
         try {
             let info = await transporter.sendMail({
-                from: `"Login app" <${transporterSettings.email}>`,
+                from: `"Login app" <${this.transporterSettings.email}>`,
                 to: to, // can be multiple (list)
                 subject: subject,
                 text: "",
