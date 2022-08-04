@@ -6,7 +6,7 @@ class PostController {
         this.postService = postService;
     }
 
-    allPosts = async (req, res) => {
+    allPosts = async (_, res) => {
         res.json({posts: await this.postService.serveAllPosts()});
     }
 
@@ -74,7 +74,7 @@ class PostController {
             let postId = req.params['postId'];
             let postToDownVote = await this.postService.servePostById(postId)
             if (req.user.id !== postToDownVote.userId) {
-                res.status(200).json({upvoted: await this.postService.downVotePost(postToDownVote, req.user.id)});
+                res.status(200).json({downvoted: await this.postService.downVotePost(postToDownVote, req.user.id)});
             } else {
                 res.status(400).json({error: "Can't vote on your own post!"});
             }

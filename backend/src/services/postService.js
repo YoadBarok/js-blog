@@ -1,11 +1,11 @@
 import { postRepository } from "../repositories/postRepository.js";
-import { voteRepository } from "../repositories/voteRepository.js";
+import {voteService} from "./voteService.js";
 
 class PostService {
 
-    constructor(postRepository, voteRepository) {
+    constructor(postRepository, voteService) {
         this.postRepository = postRepository;
-        this.voteRepository = voteRepository;
+        this.voteService = voteService;
     }
 
     async serveAllPosts() {
@@ -33,41 +33,16 @@ class PostService {
     }
 
     async upVotePost(post, userId) {
-        await this.checkVote(post, true, userId);
+        await this.voteService.vote(post, true, userId);
         return await this.postRepository.editPost(post);
     }
 
     async downVotePost(post, userId) {
-        await this.checkVote(post, false, userId);
+        await this.voteService.vote(post, false, userId);
         return await this.postRepository.editPost(post);
-    }
-
-    async checkVote(post, up, userId) {
-        let existingVote = await this.voteRepository.findVoteByPostIdAndUserId(post.id, userId);
-        if (existingVote) {
-            if (existingVote.type === 'up') {
-                existingVote.type = 'neutral';
-                post.points--;
-            } else if (existingVote.type === 'neutral') {
-                existingVote.type = up ? 'up' : 'down';
-                post.points += up ? 1 : -1;
-            }
-            else {
-                existingVote.type = "neutral";
-                post.points++;
-            }
-            await this.voteRepository.updateVote(existingVote);
-        } else {
-            post.points += up ? 1 : -1;
-            await this.voteRepository.saveVote({
-                userId: userId,
-                postId: post.id,
-                type: up ? "up" : "down"
-            })
-        }
     }
 }
 
-const postService = new PostService(postRepository, voteRepository);
+const postService = new PostService(postRepository, voteService);
 
 export { PostService, postService };
