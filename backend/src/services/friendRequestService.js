@@ -6,7 +6,7 @@ class FriendRequestService {
     }
 
     async saveNewFriendRequest(friendRequest) {
-        if (friendRequest.requesterId !== friendRequest.targetUserId) {
+        if (friendRequest.requesterId != friendRequest.targetUserId) {
             return await this.friendRequestRepository.saveNew(friendRequest);
         } return "You can't send a friend request to yourself!";
     }
