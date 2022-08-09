@@ -1,6 +1,7 @@
 import { userService } from '../services/userService.js';
 import { emailService } from '../services/emailService.js';
 import { template } from '../emailTemplates/newUser.js';
+import { friendRequestService } from '../services/friendRequestService.js';
 
 
 class UserController {
@@ -24,7 +25,7 @@ class UserController {
                 message: `New user created with the name: ${user.user_name}, a confirmation email was sent to ${user.email}`
             })
         } catch (err) {
-            if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({error: "Username or email already in use!"});
+            if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({ error: "Username or email already in use!" });
             res.status(200).json({ error: err.message });
         }
     }
@@ -54,7 +55,7 @@ class UserController {
             }
         } catch (e) {
             console.log(e)
-            res.status(200).json({ error: `Invalid request!` })
+            res.status(400).json({ error: `Invalid request!` })
         }
     }
 
@@ -63,14 +64,53 @@ class UserController {
         if (token == null) {
             return res.sendStatus(401)
         }
-        let allTokens = await userService.refreshTokenRepository.findAllRefreshTokens();
-        if (! allTokens.find( t => t.token === token)) {
+        let optionalToken = await userService.refreshTokenRepository.findByToken(token);
+        if (!optionalToken) {
             return res.sendStatus(403);
         }
         let response = userService.verifyRefresh(token)
         if (response === "ERROR") return res.sendStatus(403);
-        res.json({accessToken: response });
+        res.json({ accessToken: response });
 
+    }
+
+    sendFriendRequest = async (req, res) => {
+        try {
+            const friendRequest = {
+                targetUserId: req.params.id,
+                requesterId: req.user.id
+            }
+            if (! await friendRequestService.checkExistingFriendRequest(friendRequest)) {
+                res.status(200).json({ message: await friendRequestService.saveNewFriendRequest(friendRequest) });
+            } else {
+                res.status(400).json({ message: "friend request already sent" });
+            }
+        } catch (e) {
+            console.log(e)
+            res.status(400).json({ error: `Invalid request!` })
+        }
+    }
+    
+    approveFriendRequest = async (req, res) => {
+        try {
+            res.status(200).json({
+                message: await friendRequestService.approveFriendShip(req.params.id, req.user.id)
+            });
+        } catch (e) {
+            console.log(e)
+            res.status(400).json({ error: `Invalid request!` })
+        }
+    }
+
+    cancelFriendRequest = async (req, res) => {
+        try{
+            res.status(200).json({
+                message: await friendRequestService.cancelFriendRequest(req.params.id, req.user.id)
+            })
+        } catch (e) {
+            console.log(e)
+            res.status(400).json({ error: `Invalid request!` })
+        }
     }
 
 }

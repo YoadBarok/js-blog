@@ -1,33 +1,17 @@
 import { Post } from '../models/Post.js'
+import { CRUDRepository } from "./CRUDRepository.js";
 
-class PostRepository {
+class PostRepository extends CRUDRepository {
 
-    async findAllPosts() {
-        return await Post.findAll();
-    }
-
-    async findPostById(id) {
-        return await Post.findOne({where: {id: id}});
-    }
-
-    async savePost(post) {
-        const postToSave = new Post(post);
-        return await postToSave.save();
-    }
-
-    async editPost(post) {
-        return await post.save();
-    }
-
-    async deletePost(post) {
-        return await post.destroy();
+    constructor(Post) {
+        super(Post);
     }
 
     async findAllPostsByUserId(userId) {
-        return await Post.findAll({where: {userId: userId}});
+        return await Post.findAll({ where: { userId: userId } });
     }
 
 }
 
-const postRepository = new PostRepository();
-export {PostRepository, postRepository};
+const postRepository = new PostRepository(Post);
+export { PostRepository, postRepository };

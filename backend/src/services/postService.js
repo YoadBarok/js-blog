@@ -9,23 +9,23 @@ class PostService {
     }
 
     async serveAllPosts() {
-        return await this.postRepository.findAllPosts();
+        return await this.postRepository.findAll();
     }
 
     async servePostById(postId) {
-        return await this.postRepository.findPostById(postId);
+        return await this.postRepository.findById(postId);
     }
 
     async savePost(post) {
-        return await this.postRepository.savePost(post);
+        return await this.postRepository.saveNew(post);
     }
 
     async editPost(post) {
-        return await this.postRepository.editPost(post);
+        return await this.postRepository.update(post);
     }
 
     async deletePost(post) {
-        await this.postRepository.deletePost(post);
+        await this.postRepository.destroy(post);
     }
 
     async servePostsByUserId(userId) {

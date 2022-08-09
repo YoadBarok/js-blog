@@ -6,6 +6,10 @@ class RefreshTokenRepository {
         return await RefreshToken.findAll();
     }
 
+    async findByToken(token) {
+        return await RefreshToken.findOne({ where: { token: token } });
+    }
+
     async saveRefreshToken(token) {
         let tokenToSave = new RefreshToken(token);
         return await tokenToSave.save();
