@@ -9,6 +9,7 @@ const Post = db.define("post", {
     title: {
       type: STRING,
       allowNull: false,
+      unique: true
     },
     body: {
         type: STRING,
