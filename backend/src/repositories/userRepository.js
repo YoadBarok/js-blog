@@ -1,13 +1,11 @@
 import { User } from '../models/User.js';
+import { CRUDRepository } from "./CRUDRepository.js";
 
-class UserRepository {
 
-    async findAllUsers() {
-        return await User.findAll();
-    }
+class UserRepository extends CRUDRepository {
 
-    async findUserById(id) {
-        return await User.findOne({ where: { id: id } });
+    constructor(User) {
+        super(User);
     }
 
     async findUserByEmail(email) {
@@ -21,17 +19,7 @@ class UserRepository {
         return await User.findOne({ where: { regToken: regToken } });
     }
 
-    async saveNewUser(user) {
-        let userToSave = new User(user);
-        userToSave.regTokenExpiration = Date.now() + 3600000;
-        return await userToSave.save();
-    }
-
-    async updateUser(user) {
-        return await user.save();
-    }
-
 }
 
-const userRepository = new UserRepository();
+const userRepository = new UserRepository(User);
 export { userRepository };

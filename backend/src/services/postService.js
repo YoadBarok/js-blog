@@ -34,12 +34,12 @@ class PostService {
 
     async upVotePost(post, userId) {
         await this.voteService.vote(post, true, userId);
-        return await this.postRepository.editPost(post);
+        return await this.postRepository.update(post);
     }
 
     async downVotePost(post, userId) {
         await this.voteService.vote(post, false, userId);
-        return await this.postRepository.editPost(post);
+        return await this.postRepository.update(post);
     }
 }
 

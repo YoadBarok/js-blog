@@ -31,8 +31,8 @@ class FriendRequestService {
         } return "Invalid friend request id!";
     }
 
-    async cancelFriendRequest(id, requesterId) {
-        let friendRequest = await this.friendRequestRepository.findById(id);
+    async cancelFriendRequest(targetUserId, requesterId) {
+        let friendRequest = await this.friendRequestRepository.findByTargetUserIdAndRequesterId(targetUserId, requesterId);
         if (friendRequest) {
             if (friendRequest.approved === false) {
                 if (friendRequest.requesterId === requesterId) {

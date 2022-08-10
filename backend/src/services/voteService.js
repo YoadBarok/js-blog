@@ -28,10 +28,10 @@ class VoteService {
                     post.points++;
                 }
             }
-            await this.voteRepository.updateVote(existingVote);
+            await this.voteRepository.update(existingVote);
         } else {
             post.points += up ? 1 : -1;
-            await this.voteRepository.saveVote({
+            await this.voteRepository.saveNew({
                 userId: userId,
                 postId: post.id,
                 type: up ? "up" : "down"

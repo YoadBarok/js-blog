@@ -1,9 +1,11 @@
 import { Vote } from "../models/Vote.js";
+import { CRUDRepository } from "./CRUDRepository.js";
 
-class VoteRepository {
 
-    async findAllVotes() {
-        return await Vote.findAll();
+class VoteRepository extends CRUDRepository {
+
+    constructor(Vote) {
+        super(Vote)
     }
 
     async findVotesByUserId(userId) {
@@ -14,16 +16,7 @@ class VoteRepository {
         return await Vote.findOne({ where: { userId: userId , postId: postId} });
     }
 
-    async saveVote(voteObject) {
-        let voteToSave = new Vote(voteObject);
-        return await voteToSave.save();
-    }
-
-    async updateVote(vote) {
-        return await vote.save();
-    }
-
 }
 
-const voteRepository = new VoteRepository();
+const voteRepository = new VoteRepository(Vote);
 export {VoteRepository, voteRepository};

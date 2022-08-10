@@ -11,21 +11,22 @@ class UserService {
     }
 
     async serveAllRefreshTokens() {
-        return await this.refreshTokenRepository.findAllRefreshTokens();
+        return await this.refreshTokenRepository.findAll();
     }
 
     async serveAllUsers() {
-        return await this.userRepository.findAllUsers();
+        return await this.userRepository.findAll();
     }
 
     async serveUserById(id) {
-        return await this.userRepository.findUserById(id);
+        return await this.userRepository.findById(id);
     }
 
     async createUser(user) {
         user.password = await bcrypt.hash(user.password, 10);
         user.regToken = Math.round(Math.random() * 9000000000);
-        return await this.userRepository.saveNewUser(user);
+        user.regTokenExpiration = Date.now() + 3600000;
+        return await this.userRepository.saveNew(user);
     }
 
     async serveUserByUserName(userName) {
@@ -41,7 +42,7 @@ class UserService {
                     userToVerify.verified = true;
                     userToVerify.regToken = "";
                     userToVerify.regTokenExpiration = "";
-                    let user = await this.userRepository.updateUser(userToVerify);
+                    let user = await this.userRepository.update(userToVerify);
                     return user.user_name + ' has been successfully verified!';
                 })();
         } else {
@@ -79,7 +80,7 @@ class UserService {
         }
         await this.refreshTokenRepository.deleteAllByUserId(user.id);
         var token = jsonwebtoken.sign(valuesToSign, process.env.REFRESH_TOKEN_SECRET)
-        await this.refreshTokenRepository.saveRefreshToken({token: token, userId: user.id});
+        await this.refreshTokenRepository.saveNew({token: token, userId: user.id});
         return token;
     }
 

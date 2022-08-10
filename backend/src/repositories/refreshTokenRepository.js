@@ -1,18 +1,14 @@
 import { RefreshToken } from "../models/RefreshTokens.js";
+import { CRUDRepository } from "./CRUDRepository.js";
 
-class RefreshTokenRepository {
+class RefreshTokenRepository extends CRUDRepository {
 
-    async findAllRefreshTokens() {
-        return await RefreshToken.findAll();
+    constructor(RefreshToken) {
+        super(RefreshToken);
     }
 
     async findByToken(token) {
         return await RefreshToken.findOne({ where: { token: token } });
-    }
-
-    async saveRefreshToken(token) {
-        let tokenToSave = new RefreshToken(token);
-        return await tokenToSave.save();
     }
 
     async deleteAllByUserId(userId) {
@@ -21,5 +17,5 @@ class RefreshTokenRepository {
 
 }
 
-const refreshTokenRepository = new RefreshTokenRepository();
+const refreshTokenRepository = new RefreshTokenRepository(RefreshToken);
 export { refreshTokenRepository, RefreshTokenRepository };
