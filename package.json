@@ -8,6 +8,9 @@
     "start": "nodemon --exec babel-node backend/src/index.js",
     "test": "jest"
   },
+  "engines": {
+    "node": "16.14.2"
+  },
   "author": "Yoad Barok",
   "license": "ISC",
   "dependencies": {
