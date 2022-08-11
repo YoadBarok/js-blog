@@ -16,6 +16,10 @@ class PostService {
         return await this.postRepository.findById(postId);
     }
 
+    async serveAllByUserId(userId) {
+        return await this.postRepository.findAllByUserId(userId);
+    }
+
     async savePost(post) {
         return await this.postRepository.saveNew(post);
     }
