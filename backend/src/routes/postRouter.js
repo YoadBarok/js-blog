@@ -4,7 +4,7 @@ import {authenticateToken} from '../middleware/authentication.js';
 
 const postRouter = express.Router();
 postRouter.use(express.json());
-postRouter.get('/', authenticateToken, postController.allPosts);
+postRouter.get('/', authenticateToken, postController.allUserPosts);
 postRouter.post('/new-post', authenticateToken, postController.newPost);
 postRouter.post('/edit', authenticateToken, postController.edit);
 postRouter.get('/delete/:postId', authenticateToken, postController.delete);
