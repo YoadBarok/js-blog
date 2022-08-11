@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(
-        `Express started on http://localhost:${port}` + 
+        `Express started on ${process.env.URL}` + 
         "; press Ctrl-c to terminate."
     );
 });
