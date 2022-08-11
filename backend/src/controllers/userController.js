@@ -18,7 +18,7 @@ class UserController {
         try {
             let user = await userService.createUser(req.body);
             await emailService.sendEmail(user.email,
-                "Login app - Verify account!",
+                "Buban blog - Verify account!",
                 template(user.regToken)
             )
             res.status(200).json({
