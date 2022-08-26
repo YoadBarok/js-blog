@@ -50,14 +50,16 @@ class UserService {
         }
     }
 
-    verifyRefresh(token) {
-        let output = jsonwebtoken.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    async verifyRefresh(token) {
+        let tokenObject = await this.refreshTokenRepository.findByToken(token);
+        let user = await this.serveUserById(tokenObject.userId);
+        let newAccessToken = jsonwebtoken.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) return "ERROR";
             user = { id: user.id, user_name: user.userName }
             let accessToken = this.generateToken(user);
             return accessToken;
         })
-        return output
+        return { accessToken: newAccessToken, refreshToken: await this.generateRefresh(user) }
     }
 
     async comparePasswords(password, hashedPassword) {
@@ -80,7 +82,7 @@ class UserService {
         }
         await this.refreshTokenRepository.deleteAllByUserId(user.id);
         var token = jsonwebtoken.sign(valuesToSign, process.env.REFRESH_TOKEN_SECRET)
-        await this.refreshTokenRepository.saveNew({token: token, userId: user.id});
+        await this.refreshTokenRepository.saveNew({ token: token, userId: user.id });
         return token;
     }
 
