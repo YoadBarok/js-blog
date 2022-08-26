@@ -29,6 +29,6 @@
     "sequelize": "^6.16.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.16.8"
+    "@babel/plugin-transform-modules-commonjs": "^7.18.6"
   }
 }
