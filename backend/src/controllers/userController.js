@@ -68,9 +68,9 @@ class UserController {
         if (!optionalToken) {
             return res.sendStatus(403);
         }
-        let response = userService.verifyRefresh(token)
+        let response = await userService.verifyRefresh(token);
         if (response === "ERROR") return res.sendStatus(403);
-        res.json({ accessToken: response });
+        res.json(response);
 
     }
 
