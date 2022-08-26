@@ -24,3 +24,17 @@ describe("User repository tests", () => {
         expect(usersWithShoshi.some(user => user.user_name === "Shoshi")).toBeTruthy();
     })
 })
+
+describe("verifyUser tests", () => {
+    test("should change reg token to empty string", async () => {
+        await userService.verifyUser("1234567");
+        let userToVerify = await userService.serveUserById(2);
+        expect(userToVerify.regToken).toBe("");
+        expect(userToVerify.verified).toBeTruthy();
+    });
+    test("result should contain 'Whoops!'", async () => {
+        let userToVerify = await userService.verifyUser("");
+        let containsWhoops = userToVerify.indexOf("Whoops") !== -1;
+        expect(containsWhoops).toBeTruthy();
+    })
+})

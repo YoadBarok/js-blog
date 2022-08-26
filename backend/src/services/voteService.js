@@ -38,7 +38,6 @@ class VoteService {
             })
         }
     }
-
 }
 
 const voteService = new VoteService(voteRepository);

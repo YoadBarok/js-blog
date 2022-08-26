@@ -21,10 +21,10 @@ class PostController {
             return res.status(200).json({ new_post: await this.postService.savePost(post) });
         } catch (e) {
             if (e.name === 'SequelizeUniqueConstraintError') {
-                res.status(400).json({ error: "Title is already taken"})
+                res.status(400).json({ error: "Title is already taken" })
                 console.log("Title is already taken!");
             } else {
-                res.status(400).json({ error: e.message})
+                res.status(400).json({ error: e.message })
                 console.log(e.message);
 
             }
@@ -68,7 +68,9 @@ class PostController {
             let postId = req.params['postId'];
             let postToUpVote = await this.postService.servePostById(postId)
             if (req.user.id !== postToUpVote.userId) {
-                res.status(200).json({ upvoted: await this.postService.upVotePost(postToUpVote, req.user.id) });
+                res.status(200).json({
+                    upvoted: await this.postService.upVotePost(postToUpVote, req.user.id)
+                });
             } else {
                 res.status(400).json({ error: "Can't vote on your own post!" });
             }
@@ -84,7 +86,9 @@ class PostController {
             let postId = req.params['postId'];
             let postToDownVote = await this.postService.servePostById(postId)
             if (req.user.id !== postToDownVote.userId) {
-                res.status(200).json({ downvoted: await this.postService.downVotePost(postToDownVote, req.user.id) });
+                res.status(200).json({
+                    downvoted: await this.postService.downVotePost(postToDownVote, req.user.id)
+                });
             } else {
                 res.status(400).json({ error: "Can't vote on your own post!" });
             }

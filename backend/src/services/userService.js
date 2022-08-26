@@ -35,7 +35,7 @@ class UserService {
 
     async verifyUser(regToken) {
         let userToVerify = await this.userRepository.findUserByRegToken(regToken);
-        if (userToVerify) {
+        if (userToVerify && !userToVerify.verified) {
             return userToVerify.regTokenExpiration < Date.now() ?
                 "Registration token expired" :
                 (async () => {

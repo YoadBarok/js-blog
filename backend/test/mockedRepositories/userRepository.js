@@ -7,7 +7,7 @@ class UserRepository {
             password: "strongPassword",
             verified: true,
             regToken: "",
-            regTokenExpiration: ""
+            regTokenExpiration: 0
         },
         {
             id: 2,
@@ -16,7 +16,7 @@ class UserRepository {
             password: "strongPassword",
             verified: false,
             regToken: "1234567",
-            regTokenExpiration: "9999999999999999999"
+            regTokenExpiration: 99999999999999
         },
         {
             id: 3,
@@ -25,12 +25,16 @@ class UserRepository {
             password: "strongPassword",
             verified: true,
             regToken: "",
-            regTokenExpiration: ""
+            regTokenExpiration: 0
         },
 
     ];
 
-    findAll = () => {
+    findUserByRegToken(regToken) {
+        return this.users.find(user => user.regToken === regToken);
+    }
+
+    findAll() {
         return this.users;
     }
     
@@ -40,6 +44,12 @@ class UserRepository {
 
     saveNew(user) {
         this.users.push(user);
+        return user;
+    }
+
+    update(user) {
+        let userToSwitch = this.users.find(existingUser => existingUser.id === user.id); 
+        this.users.splice(this.users.indexOf(userToSwitch), 1, user);
         return user;
     }
 }
