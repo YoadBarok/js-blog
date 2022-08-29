@@ -52,6 +52,7 @@ class UserService {
 
     async verifyRefresh(token) {
         let tokenObject = await this.refreshTokenRepository.findByToken(token);
+        if (!tokenObject) return "No such token!";
         let user = await this.serveUserById(tokenObject.userId);
         let newAccessToken = jsonwebtoken.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) return "ERROR";
@@ -59,7 +60,8 @@ class UserService {
             let accessToken = this.generateToken(user);
             return accessToken;
         })
-        return { accessToken: newAccessToken, refreshToken: await this.generateRefresh(user) }
+        let newRefreshToken = await this.generateRefresh(user);
+        return { accessToken: newAccessToken, refreshToken: newRefreshToken }
     }
 
     async comparePasswords(password, hashedPassword) {
