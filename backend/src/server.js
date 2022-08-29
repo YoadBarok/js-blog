@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import {limiter} from './middleware/rateLimit.js'
+
 
 // routers
 import {userRouter} from './routes/userRouter.js';
@@ -11,6 +13,7 @@ const { urlencoded, json } = bodyParser;
 const app = express();
 
 app.use(cors());
+app.use(limiter);
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
