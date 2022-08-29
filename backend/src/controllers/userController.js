@@ -80,30 +80,48 @@ class UserController {
                 targetUserId: req.params.id,
                 requesterId: req.user.id
             }
-            if (! await friendRequestService.checkExistingFriendRequest(friendRequest)) {
-                res.status(200).json({ message: await friendRequestService.saveNewFriendRequest(friendRequest) });
+            const targetUser = await userService.serveUserById(friendRequest.targetUserId);
+            if (targetUser) {
+                if (! await friendRequestService.checkExistingFriendRequest(friendRequest)) {
+                    res.status(200).json({ message: await friendRequestService.saveNewFriendRequest(friendRequest) });
+                } else {
+                    res.status(400).json({ message: "friend request already sent" });
+                }
             } else {
-                res.status(400).json({ message: "friend request already sent" });
+                res.status(400).json({ message: "invalid target user id" });
             }
         } catch (e) {
             console.log(e)
             res.status(400).json({ error: `Invalid request!` })
         }
     }
-    
+
     approveFriendRequest = async (req, res) => {
         try {
+            let friendRequestId = req.params.id;
+            let targetUserId = req.user.id;
             res.status(200).json({
-                message: await friendRequestService.approveFriendShip(req.params.id, req.user.id)
+                message: await friendRequestService.approveFriendShip(friendRequestId, targetUserId)
             });
         } catch (e) {
-            console.log(e)
-            res.status(400).json({ error: `Invalid request!` })
+            console.log(e);
+            res.status(400).json({ error: `Invalid request!` });
+        }
+    }
+
+    rejectFriendRequest = async (req, res) => {
+        try {
+            let friendRequestId = req.params.id;
+            let targetUserId = req.user.id;
+            res.status(200).json({message: await friendRequestService.rejectFriendRequest(friendRequestId, targetUserId)});
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ error: `Invalid request!` });
         }
     }
 
     cancelFriendRequest = async (req, res) => {
-        try{
+        try {
             res.status(200).json({
                 message: await friendRequestService.cancelFriendRequest(req.params.id, req.user.id)
             })

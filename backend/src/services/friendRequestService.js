@@ -22,10 +22,22 @@ class FriendRequestService {
     async approveFriendShip(id, targetUserId) {
         let friendRequest = await this.friendRequestRepository.findById(id);
         if (friendRequest) {
-            if (friendRequest.approved === false) {
+            if (!friendRequest.approved) {
                 if (friendRequest.targetUserId === targetUserId) {
                     friendRequest.approved = true;
                     return await this.friendRequestRepository.update(friendRequest);
+                } return "This request is not aimed for you!";
+            } return "Request already approved!";
+        } return "Invalid friend request id!";
+    }
+
+    async rejectFriendRequest(id, targetUserId) {
+        let friendRequest = await this.friendRequestRepository.findById(id);
+        if (friendRequest) {
+            if (!friendRequest.approved) {
+                if (friendRequest.targetUserId === targetUserId) {
+                    let rejectedRequest = await this.friendRequestRepository.destroy(friendRequest);
+                    return `friend request #${rejectedRequest.id} has been rejected successfully!`;
                 } return "This request is not aimed for you!";
             } return "Request already approved!";
         } return "Invalid friend request id!";
@@ -41,8 +53,7 @@ class FriendRequestService {
             } return "Request already approved!";
         } return "Invalid friend request id!";
     }
-
-
+    
 }
 
 const friendRequestService = new FriendRequestService(friendRequestRepository);

@@ -12,6 +12,7 @@ userRouter.post('/login', userController.login);
 userRouter.post('/token', userController.refreshToken)
 userRouter.get('/add-friend/:id', authenticateToken, userController.sendFriendRequest);
 userRouter.get('/approve-friend-request/:id', authenticateToken, userController.approveFriendRequest);
+userRouter.get('/reject-friend-request/:id', authenticateToken, userController.rejectFriendRequest);
 userRouter.get('/cancel-friend-request/:id', authenticateToken, userController.cancelFriendRequest);
 
 export { userRouter };

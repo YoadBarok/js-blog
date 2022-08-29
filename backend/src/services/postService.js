@@ -33,14 +33,17 @@ class PostService {
     }
 
     async upVotePost(post, userId) {
+        if (post.userId === userId) return "can't vote on your own post";
         await this.voteService.vote(post, true, userId);
         return await this.postRepository.update(post);
     }
 
     async downVotePost(post, userId) {
+        if (post.userId === userId) return "can't vote on your own post";
         await this.voteService.vote(post, false, userId);
         return await this.postRepository.update(post);
     }
+
 }
 
 const postService = new PostService(postRepository, voteService);

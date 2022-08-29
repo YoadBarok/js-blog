@@ -10,10 +10,6 @@ class UserService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
-    async serveAllRefreshTokens() {
-        return await this.refreshTokenRepository.findAll();
-    }
-
     async serveAllUsers() {
         return await this.userRepository.findAll();
     }
