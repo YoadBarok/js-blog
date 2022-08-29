@@ -14,4 +14,4 @@ To run locally:
 * run "npm start" in the root directory in order to run the backend server.
 
 Postman collection:
-[JSON link here](https://www.getpostman.com/collections/52f52b8d7f67c21e15fa)
+[JSON link here!](https://www.getpostman.com/collections/52f52b8d7f67c21e15fa)
