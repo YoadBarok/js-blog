@@ -36,8 +36,8 @@ class FriendRequestService {
         if (friendRequest) {
             if (!friendRequest.approved) {
                 if (friendRequest.targetUserId === targetUserId) {
-                    let rejectedRequest = await this.friendRequestRepository.destroy(friendRequest);
-                    return `friend request #${rejectedRequest.id} has been rejected successfully!`;
+                    await this.friendRequestRepository.destroy(friendRequest);
+                    return `friend request #${friendRequest.id} has been rejected successfully!`;
                 } return "This request is not aimed for you!";
             } return "Request already approved!";
         } return "Invalid friend request id!";
