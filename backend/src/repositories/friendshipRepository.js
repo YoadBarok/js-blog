@@ -1,4 +1,4 @@
-import { Friendship } from "../models/friendship.js";
+import { Friendship } from "../models/Friendship.js";
 import { CRUDRepository } from "./CRUDRepository.js";
 
 class FriendshipRepository extends CRUDRepository {
