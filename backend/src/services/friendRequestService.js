@@ -53,7 +53,14 @@ class FriendRequestService {
             } return "Request already approved!";
         } return "Invalid friend request id!";
     }
-    
+
+    async unfriend(targetUserId, requesterId){
+        let friendship = await this.friendRequestRepository.findByTargetUserIdAndRequesterId(targetUserId, requesterId);
+        if (friendship) return await this.friendRequestRepository.destroy(friendship);
+        friendship = await this.friendRequestRepository.findByTargetUserIdAndRequesterId(requesterId, targetUserId);
+        if (friendship) return await this.friendRequestRepository.destroy(friendship);
+        else return "friendship request error: user with targetUserId is not your friend";
+    }    
 }
 
 const friendRequestService = new FriendRequestService(friendRequestRepository);

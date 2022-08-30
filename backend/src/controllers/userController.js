@@ -60,17 +60,22 @@ class UserController {
     }
 
     refreshToken = async (req, res) => {
-        const token = req.body.token;
-        if (token == null) {
-            return res.sendStatus(401)
+        try{
+            const token = req.body.token;
+            if (token == null) {
+                return res.sendStatus(401)
+            }
+            let optionalToken = await userService.refreshTokenRepository.findByToken(token);
+            if (!optionalToken) {
+                return res.sendStatus(403);
+            }
+            let response = await userService.verifyRefresh(token);
+            if (response === "ERROR") return res.sendStatus(403);
+            res.json(response);
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({error: e.message});
         }
-        let optionalToken = await userService.refreshTokenRepository.findByToken(token);
-        if (!optionalToken) {
-            return res.sendStatus(403);
-        }
-        let response = await userService.verifyRefresh(token);
-        if (response === "ERROR") return res.sendStatus(403);
-        res.json(response);
 
     }
 
@@ -128,6 +133,22 @@ class UserController {
         } catch (e) {
             console.log(e)
             res.status(400).json({ error: `Invalid request!` })
+        }
+    }
+
+    unfriend = async (req, res) => {
+        try {
+            let targetUserId = req.params.id;
+            let requesterId = req.user.id;
+            let unfriendAttempt = await friendRequestService.unfriend(targetUserId, requesterId);
+            if (typeof unfriendAttempt === 'string'){
+                res.status(400).json({message: unfriendAttempt});
+            }else{
+                res.status(200).json({message: `User #${targetUserId} was unfriended`});
+            }
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ error: e.message});
         }
     }
 
