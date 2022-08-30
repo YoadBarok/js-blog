@@ -4,7 +4,7 @@ import db from "../../config/database.js";
 
 
 
-const FriendRequest = db.define("friend_request", {
+const Friendship = db.define("friendship", {
     approved: {
       type: BOOLEAN,
       defaultValue: false
@@ -19,4 +19,4 @@ const FriendRequest = db.define("friend_request", {
     }
   });
 
-  export { FriendRequest };
+  export { Friendship };
