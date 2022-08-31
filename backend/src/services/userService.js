@@ -32,15 +32,15 @@ class UserService {
     async verifyUser(regToken) {
         let userToVerify = await this.userRepository.findUserByRegToken(regToken);
         if (userToVerify && !userToVerify.verified) {
-            return userToVerify.regTokenExpiration < Date.now() ?
-                "Registration token expired" :
-                (async () => {
-                    userToVerify.verified = true;
-                    userToVerify.regToken = "";
-                    userToVerify.regTokenExpiration = "";
-                    let user = await this.userRepository.update(userToVerify);
-                    return user.user_name + ' has been successfully verified!';
-                })();
+            if (userToVerify.regTokenExpiration < Date.now()) {
+                return "Registration token expired";
+            } else {
+                userToVerify.verified = true;
+                userToVerify.regToken = "";
+                userToVerify.regTokenExpiration = "";
+                let user = await this.userRepository.update(userToVerify);
+                return user.user_name + ' has been successfully verified!';
+            }
         } else {
             return "Whoops! Looks like you're already verified!"
         }
