@@ -1,12 +1,5 @@
 import { createTransport } from 'nodemailer';
 
-// const DEFAULTSETTINGS = {
-//     host: process.env.SMTP_HOST,
-//     port: process.env.SMTP_PORT,
-//     email: process.env.EMAIL_USER,
-//     password: process.env.EMAIL_PASS
-// }
-
 class EmailService {
 
     transporterSettings = {

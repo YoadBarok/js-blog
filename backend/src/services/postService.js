@@ -20,8 +20,12 @@ class PostService {
         return await this.postRepository.saveNew(post);
     }
 
-    async editPost(post) {
-        return await this.postRepository.update(post);
+    async editPost(postUpdates, postToEdit) {
+            let fieldsToUpdate = Object.keys(postUpdates).filter(field => field != "id");
+            fieldsToUpdate.forEach(field => {
+                postToEdit[field] = postUpdates[field];
+            })
+            return await this.postRepository.update(postToEdit);
     }
 
     async deletePost(post) {
