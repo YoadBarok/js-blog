@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon --exec babel-node backend/src/index.js",
+    "start": "node backend/src/index.js",
+    "dev": "nodemon --exec babel-node backend/src/index.js",
     "test": "jest"
   },
   "author": "Yoad Barok",

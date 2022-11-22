@@ -16,7 +16,7 @@ class UserRepository extends CRUDRepository {
     }
 
     async findUserByRegToken(regToken) {
-        return await User.findOne({ where: { regToken: regToken } });
+        return User.findOne({ where: { regToken: regToken } });
     }
 
 }

@@ -32,7 +32,7 @@ class EmailService {
     async sendEmail(to, subject, template) {
         let transporter = this.createTransporter()
         try {
-            let info = await transporter.sendMail({
+            await transporter.sendMail({
                 from: `"Login app" <${this.transporterSettings.email}>`,
                 to: to, // can be multiple (list)
                 subject: subject,
