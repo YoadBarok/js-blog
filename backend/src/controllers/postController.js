@@ -6,8 +6,8 @@ class PostController {
         this.postService = postService;
     }
 
-    allPosts = async (_, res) => {
-        res.json({ posts: await this.postService.serveAllPosts() });
+    allUserPosts = async (req, res) => {
+        res.json({ posts: await this.postService.serveAllByUserId(req.user.id) });
     }
 
     newPost = async (req, res) => {

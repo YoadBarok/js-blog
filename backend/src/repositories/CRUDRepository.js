@@ -12,6 +12,10 @@ class CRUDRepository {
         return await this.model.findOne({where: {id: id}});
     }
 
+    async findAllByUserId(userId) {
+        return await this.model.findAll({where: {userId: userId}});
+    }
+
     async saveNew(object) {
         let objectToSave = new this.model(object);
         return await objectToSave.save();

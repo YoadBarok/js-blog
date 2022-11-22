@@ -9,6 +9,9 @@
     "dev": "nodemon --exec babel-node backend/src/index.js",
     "test": "jest"
   },
+  "engines": {
+    "node": "16.14.2"
+  },
   "author": "Yoad Barok",
   "license": "ISC",
   "dependencies": {
@@ -30,6 +33,7 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
+    "pg": "^8.7.3",
     "sequelize": "^6.16.0"
   },
   "devDependencies": {
