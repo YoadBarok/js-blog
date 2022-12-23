@@ -28,7 +28,7 @@
     "glob-parent": "^6.0.2",
     "got": "^12.4.1",
     "jest": "^27.5.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
