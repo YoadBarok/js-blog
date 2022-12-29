@@ -17,7 +17,7 @@ class UserController {
     save = async (req, res) => {
         try {
             let user = await userService.createUser(req.body);
-            await emailService.sendEmail(user.email,
+            emailService.sendEmail(user.email,
                 "Login app - Verify account!",
                 template(user.regToken)
             )
