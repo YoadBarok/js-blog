@@ -1,5 +1,6 @@
 import { RefreshToken } from "../models/RefreshTokens.js";
 import { CRUDRepository } from "./CRUDRepository.js";
+import {Op} from "sequelize";
 
 class RefreshTokenRepository extends CRUDRepository {
 
@@ -13,6 +14,20 @@ class RefreshTokenRepository extends CRUDRepository {
 
     async deleteAllByUserId(userId) {
         return await RefreshToken.destroy({ where: { userId: userId } });
+    }
+
+    async deleteAllExpiredTokens() {
+        const expiredTokens = await RefreshToken.findAll({
+            where: {
+                updatedAt: {
+                    [Op.lt]: Date.now() - process.env.REFRESH_TOKEN_EXPIRY
+                }
+            }
+        }
+        )
+        expiredTokens.forEach(async token => {
+            await token.destroy();
+        });
     }
 
 }

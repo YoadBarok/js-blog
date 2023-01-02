@@ -90,14 +90,14 @@ class UserController {
                 if (! await friendshipService.checkExistingfriendship(friendship)) {
                     res.status(200).json({ message: await friendshipService.saveNewfriendship(friendship) });
                 } else {
-                    res.status(400).json({ message: "friend request already sent" });
+                    throw "friend request already sent";
                 }
             } else {
-                res.status(400).json({ message: "invalid target user id" });
+                throw "invalid target user id" ;
             }
         } catch (e) {
             console.log(e)
-            res.status(400).json({ error: `Invalid request!` })
+            res.status(400).json({ error: e })
         }
     }
 
@@ -142,7 +142,7 @@ class UserController {
             let requesterId = req.user.id;
             let unfriendAttempt = await friendshipService.unfriend(targetUserId, requesterId);
             if (typeof unfriendAttempt === 'string'){
-                res.status(400).json({message: unfriendAttempt});
+                throw {message: unfriendAttempt};
             }else{
                 res.status(200).json({message: `User #${targetUserId} was unfriended`});
             }

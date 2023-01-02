@@ -6,8 +6,8 @@ class PostController {
         this.postService = postService;
     }
 
-    allPosts = async (_, res) => {
-        res.json({ posts: await this.postService.serveAllPosts() });
+    allUserPosts = async (req, res) => {
+        res.json({ posts: await this.postService.serveAllByUserId(req.user.id) });
     }
 
     newPost = async (req, res) => {
@@ -22,7 +22,6 @@ class PostController {
         } catch (e) {
             if (e.name === 'SequelizeUniqueConstraintError') {
                 res.status(400).json({ error: "Title is already taken" })
-                console.log("Title is already taken!");
             } else {
                 res.status(400).json({ error: e.message })
                 console.log(e.message);
@@ -38,62 +37,62 @@ class PostController {
             if (postToEdit.userId === req.user.id) {
                 res.status(200).json({ success: await this.postService.editPost(postUpdates, postToEdit) });
             } else throw "This is not your post!";
-        } catch(err) {
-        res.status(400).json({ error: err});
-    }
-}
-
-delete = async (req, res) => {
-    try {
-        let postId = req.params['postId'];
-        let postToDelete = await this.postService.servePostById(postId)
-        if (req.user.id === postToDelete.userId) {
-            await this.postService.deletePost(postToDelete)
-            res.status(200).json({ success: `Post #${postId} was deleted successfully!` });
-        } else {
-            res.status(403).json({ error: "This is not your post!" });
+        } catch (err) {
+            res.status(400).json({ error: err });
         }
-    } catch (err) {
-        res.json({ error: err });
-        console.log("error: " + err);
     }
-}
 
-upvote = async (req, res) => {
-    try {
-        let postId = req.params['postId'];
-        let postToUpVote = await this.postService.servePostById(postId)
-        if (req.user.id !== postToUpVote.userId) {
-            res.status(200).json({
-                upvoted: await this.postService.upVotePost(postToUpVote, req.user.id)
-            });
-        } else {
-            res.status(400).json({ error: "Can't vote on your own post!" });
+    delete = async (req, res) => {
+        try {
+            let postId = req.params['postId'];
+            let postToDelete = await this.postService.servePostById(postId)
+            if (req.user.id === postToDelete.userId) {
+                await this.postService.deletePost(postToDelete)
+                res.status(200).json({ success: `Post #${postId} was deleted successfully!` });
+            } else {
+                throw "This is not your post!";
+            }
+        } catch (err) {
+            res.json({ error: err });
+            console.log("error: " + err);
         }
-
-    } catch (err) {
-        res.json({ error: err.message });
-        console.log("error: " + err.message);
     }
-}
 
-downvote = async (req, res) => {
-    try {
-        let postId = req.params['postId'];
-        let postToDownVote = await this.postService.servePostById(postId)
-        if (req.user.id !== postToDownVote.userId) {
-            res.status(200).json({
-                downvoted: await this.postService.downVotePost(postToDownVote, req.user.id)
-            });
-        } else {
-            res.status(400).json({ error: "Can't vote on your own post!" });
+    upvote = async (req, res) => {
+        try {
+            let postId = req.params['postId'];
+            let postToUpVote = await this.postService.servePostById(postId)
+            if (req.user.id !== postToUpVote.userId) {
+                res.status(200).json({
+                    upvoted: await this.postService.upVotePost(postToUpVote, req.user.id)
+                });
+            } else {
+                throw "Can't vote on your own post!";
+            }
+
+        } catch (err) {
+            res.json({ error: err.message });
+            console.log("error: " + err.message);
         }
-
-    } catch (err) {
-        res.json({ error: err.message });
-        console.log("error: " + err.message);
     }
-}
+
+    downvote = async (req, res) => {
+        try {
+            let postId = req.params['postId'];
+            let postToDownVote = await this.postService.servePostById(postId)
+            if (req.user.id !== postToDownVote.userId) {
+                res.status(200).json({
+                    downvoted: await this.postService.downVotePost(postToDownVote, req.user.id)
+                });
+            } else {
+                throw "Can't vote on your own post!";
+            }
+
+        } catch (err) {
+            res.json({ error: err.message });
+            console.log("error: " + err.message);
+        }
+    }
 
 
 

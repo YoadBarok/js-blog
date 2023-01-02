@@ -5,7 +5,7 @@ const environment = local.match("localhost") ? local : hosted;
 
 let template = (code) => {
 return `
-<h1>Welcome to my Login App!</h1>
+<h1>Thank you for signing up for Buban Blog!</h1>
 <h2>Please verify your account by clicking the following link:</h2>
 <a href="${environment}/user/verify/${code}">Click me!</a>
 `
