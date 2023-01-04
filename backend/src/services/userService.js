@@ -29,6 +29,10 @@ class UserService {
         return await this.userRepository.findUserByUserName(userName);
     }
 
+    async serveUserByEmail(email) {
+        return this.userRepository.findUserByEmail(email);
+    }
+
     async verifyUser(regToken) {
         let userToVerify = await this.userRepository.findUserByRegToken(regToken);
         if (userToVerify && !userToVerify.verified) {

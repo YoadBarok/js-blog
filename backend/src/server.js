@@ -1,6 +1,7 @@
 import express from 'express';
 import { limiter } from './middleware/rateLimit.js'
 import { cleanExpiredRefreshTokens } from './middleware/cleanRefreshTokens.js'
+import cors from 'cors';
 
 
 // routers
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(limiter);
+app.use(cors({useCredentials: true}));
 
 // Scheduled jobs:
 setInterval(cleanExpiredRefreshTokens, 120000) // Every 2 minutes

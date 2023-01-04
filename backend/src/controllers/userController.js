@@ -17,12 +17,13 @@ class UserController {
     save = async (req, res) => {
         try {
             let user = await userService.createUser(req.body);
-            await emailService.sendEmail(user.email,
+            emailService.sendEmail(user.email,
                 "Buban blog - Verify account!",
                 template(user.regToken)
             )
             res.status(200).json({
-                message: `New user created with the name: ${user.user_name}, a confirmation email was sent to ${user.email}`
+                message: `New user created with the name: ${user.user_name}, a confirmation email was sent to ${user.email}`,
+                status: "success"
             })
         } catch (err) {
             if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({ error: "Username or email already in use!" });
@@ -32,8 +33,8 @@ class UserController {
 
     verify = async (req, res) => {
         try {
-            let answer = await userService.verifyUser(req.params.regToken);
-            res.status(200).json({ message: answer })
+            await userService.verifyUser(req.params.regToken);
+            res.status(200).redirect(process.env.FRONTEND_URL);
         } catch (err) {
             res.status(400).json({ message: err })
         }
@@ -41,16 +42,16 @@ class UserController {
 
     login = async (req, res) => {
         try {
-            let user = await userService.serveUserByUserName(req.body.user_name);
+            let user = await userService.serveUserByEmail(req.body.email);
             if (!user || !await userService.comparePasswords(req.body.password, user.password)) {
-                res.status(200).json({ error: `Invalid credentials!` })
+                res.status(400).json({ error: `Invalid credentials!` })
             } else {
                 if (user.verified) {
                     const accesToken = userService.generateToken(user);
                     const refreshToken = await userService.generateRefresh(user);
                     res.status(200).json({ access_token: accesToken, refresh_token: refreshToken })
                 } else {
-                    res.status(200).json({ error: 'User is not verified!' })
+                    res.status(400).json({ error: 'User is not verified!' })
                 }
             }
         } catch (e) {
