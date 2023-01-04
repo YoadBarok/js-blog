@@ -26,7 +26,7 @@ class UserController {
                 status: "success"
             })
         } catch (err) {
-            if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({ error: "Username or email already in use!" });
+            if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({ error: "Username or email already in use!", status: "fail" });
             res.status(200).json({ error: err.message });
         }
     }

@@ -15,7 +15,6 @@
   "author": "Yoad Barok",
   "license": "ISC",
   "dependencies": {
-    "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-node": "^0.0.1-security",
     "bcryptjs": "^2.4.3",
@@ -33,7 +32,7 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
-    "pg": "^8.7.3",
+    "pg": "^8.8.0",
     "sequelize": "^6.16.0"
   },
   "devDependencies": {
