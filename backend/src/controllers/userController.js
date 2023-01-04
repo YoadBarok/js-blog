@@ -22,10 +22,11 @@ class UserController {
                 template(user.regToken)
             )
             res.status(200).json({
-                message: `New user created with the name: ${user.user_name}, a confirmation email was sent to ${user.email}`
+                message: `New user created with the name: ${user.user_name}, a confirmation email was sent to ${user.email}`,
+                status: 'success'
             })
         } catch (err) {
-            if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({ error: "Username or email already in use!" });
+            if (err.name === 'SequelizeUniqueConstraintError') return res.status(400).json({ error: "Username or email already in use!", status: "fail" });
             res.status(200).json({ error: err.message });
         }
     }
