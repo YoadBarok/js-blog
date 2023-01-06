@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 
 (async () => {
     await sequelize.sync({
-        alter: false,
+        alter: true,
         force: false
     });
 })();

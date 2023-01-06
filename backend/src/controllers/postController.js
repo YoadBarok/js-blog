@@ -1,22 +1,36 @@
 import { postService } from '../services/postService.js';
+import { userService } from "../services/userService.js";
 
 class PostController {
 
-    constructor(postService) {
+    constructor(postService, userService) {
         this.postService = postService;
+        this.userService = userService;
     }
 
     allUserPosts = async (req, res) => {
         res.json({ posts: await this.postService.serveAllByUserId(req.user.id) });
     }
 
+    allPosts = async (req, res) => {
+        try {
+            let posts = await this.postService.serveAllPosts();
+            res.status(200).json({posts: posts});
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({error: error});
+        }
+    }
+
     newPost = async (req, res) => {
         try {
             const { title, body } = req.body;
+            const user = await this.userService.serveUserById(req.user.id);
             const post = {
                 title: title,
                 body: body,
-                userId: req.user.id
+                userId: req.user.id,
+                author: user.user_name
             }
             return res.status(200).json({ new_post: await this.postService.savePost(post) });
         } catch (e) {
@@ -98,6 +112,6 @@ class PostController {
 
 }
 
-const postController = new PostController(postService);
+const postController = new PostController(postService, userService);
 
 export { PostController, postController };
