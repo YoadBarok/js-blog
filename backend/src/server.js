@@ -10,10 +10,10 @@ import { postRouter } from './routes/postRouter.js';
 
 const app = express();
 
+app.use(cors({ credentials: true }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(limiter);
-app.use(cors({useCredentials: true}));
 
 // Scheduled jobs:
 setInterval(cleanExpiredRefreshTokens, 120000) // Every 2 minutes
