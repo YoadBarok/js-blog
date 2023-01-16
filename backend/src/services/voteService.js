@@ -5,6 +5,11 @@ class VoteService {
         this.voteRepository = voteRepository;
     }
 
+    async serveVoteByPostIdAndUserId(postId, userId) {
+        const existingVote = await this.voteRepository.findVoteByPostIdAndUserId(postId, userId);
+        return existingVote || null;
+    }
+
     async vote(post, up, userId) {
         let existingVote = await this.voteRepository.findVoteByPostIdAndUserId(post.id, userId);
         if (existingVote) {

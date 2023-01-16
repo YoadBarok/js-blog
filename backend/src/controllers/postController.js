@@ -1,11 +1,22 @@
 import { postService } from '../services/postService.js';
 import { userService } from "../services/userService.js";
+import { voteService } from "../services/voteService.js";
 
 class PostController {
 
-    constructor(postService, userService) {
+    constructor(postService, userService, voteService) {
         this.postService = postService;
         this.userService = userService;
+        this.voteService = voteService;
+    }
+
+    postById = async (req, res) => {
+        try {
+            const post = await this.postService.servePostById(req.params.postId);
+            res.status(200).json(post);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
     }
 
     allUserPosts = async (req, res) => {
@@ -15,10 +26,10 @@ class PostController {
     allPosts = async (req, res) => {
         try {
             let posts = await this.postService.serveAllPosts();
-            res.status(200).json({posts: posts});
+            res.status(200).json({ posts: posts });
         } catch (error) {
             console.log(error);
-            res.status(400).json({error: error});
+            res.status(400).json({ error: error });
         }
     }
 
@@ -108,10 +119,25 @@ class PostController {
         }
     }
 
+    userVote = async (req, res) => {
+        try {
+            const {postId} = req.params;
+            const userId = await req.user.id;
+            const vote = await this.voteService.serveVoteByPostIdAndUserId(postId, userId);
+            if (vote) {
+                return res.status(200).json(vote);
+            } 
+        } catch (error) {
+            res.status(400).json({ error: error });
+        }
+    }
+
+    
+
 
 
 }
 
-const postController = new PostController(postService, userService);
+const postController = new PostController(postService, userService, voteService);
 
 export { PostController, postController };

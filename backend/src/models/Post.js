@@ -1,5 +1,5 @@
 import sequelize from "sequelize";
-const { STRING, BOOLEAN, INTEGER } = sequelize;
+const { STRING, BOOLEAN, INTEGER, TEXT } = sequelize;
 import db from "../../config/database.js";
 import { User } from "./User.js"
 
@@ -12,7 +12,7 @@ const Post = db.define("post", {
     unique: true
   },
   body: {
-    type: STRING,
+    type: TEXT,
     allowNull: false,
   },
   points: {
