@@ -20,7 +20,7 @@ services:
       - EMAIL_USER=bubanblog@gmail.com
       - EMAIL_PASS=sellhdccsgijuiow
       - ACCESS_TOKEN_SECRET=bayr1348jn!@lkj7uabd093u&u34ya83mnxp
-      - ACCESS_TOKEN_DURATION=3600s
+      - ACCESS_TOKEN_EXPIRY=3600s
       - REFRESH_TOKEN_SECRET=bayr1348jn!@hk31fazsfghwqe<ss13mnxp
       - REFRESH_TOKEN_DURATION=28800s
     depends_on:

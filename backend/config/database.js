@@ -8,12 +8,12 @@ const sequelize = new Sequelize(
         host: process.env.DB_HOST || "localhost",
 
         dialect: process.env.DB_DIALECT || "postgres",
-        dialectOptions: {
+        dialectOptions: process.env.DIALECT === "mysql" ? {
             ssl: {
               require: true, 
               rejectUnauthorized: false 
             }
-          },
+          }: {},
 
         pool: {
             max: 5,
