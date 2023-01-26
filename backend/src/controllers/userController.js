@@ -6,10 +6,21 @@ import { friendshipService } from '../services/friendshipService.js';
 
 class UserController {
 
+    getUserById = async (req, res) => {
+        try {
+            const user = await userService.serveUserById(req.params.userId);
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(400).json(error);
+        }
+    }
+
     identify = async (req, res) => {
         try {
-            res.status(200).json(await userService.identifyUser(req.user.id));
+            const user = await userService.identifyUser(req.user.id)
+            res.status(200).json(user);
         } catch (err) {
+            console.log(err);
             res.status(400).json({ error: err.message });
         }
     }

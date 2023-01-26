@@ -43,13 +43,15 @@ class PostController {
                 userId: req.user.id,
                 author: user.user_name
             }
-            return res.status(200).json({ new_post: await this.postService.savePost(post) });
+            if (title && body) {
+                return res.status(200).json({ new_post: await this.postService.savePost(post) });
+            } else throw "Can't leave title or body empty!"
         } catch (e) {
             if (e.name === 'SequelizeUniqueConstraintError') {
                 res.status(400).json({ error: "Title is already taken" })
             } else {
-                res.status(400).json({ error: e.message })
-                console.log(e.message);
+                res.status(400).json({ error: e })
+                console.log(e);
 
             }
         }

@@ -6,6 +6,7 @@ const userRouter = Router();
 userRouter.use(json());
 
 userRouter.get('/identify', authenticateToken, userController.identify);
+userRouter.get('/:userId', authenticateToken, userController.getUserById);
 userRouter.post('/save-user', userController.save);
 userRouter.get('/verify/:regToken', userController.verify);
 userRouter.post('/login', userController.login);
