@@ -33,7 +33,7 @@
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "pg": "^8.8.0",
-    "sequelize": "^6.16.0"
+    "sequelize": "^6.29.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.18.6"
